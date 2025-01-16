@@ -1,7 +1,57 @@
+import { useEffect } from 'react'
 import { Header } from './Header'
 import { Link } from 'react-router-dom'
 
+type statsObject = {
+  closedWindows: number,
+  infoClicked: number,
+  pagesVisited: string[],
+  sectionSwitches: number,
+  isKonami: boolean
+}
+
 export const FOF = () => {
+  function getStats(): statsObject{
+    let stats = localStorage.getItem("Stats");
+
+    let statsJSON
+    if (stats) {
+      statsJSON = JSON.parse(stats);
+    } else {
+      statsJSON = {
+        closedWindows: 0,
+        infoClicked: 0,
+        pagesVisited: [],
+        sectionSwitches: 0,
+        isKonami: false,
+      };
+      localStorage.setItem("Stats", JSON.stringify(statsJSON));
+    }
+
+    return statsJSON
+  }
+
+  function updateStats(stats: statsObject){
+    localStorage.setItem("Stats", JSON.stringify(stats));
+
+    return;
+  }
+
+  function handleswitch(page: string) {
+    let stats = getStats();
+    stats.sectionSwitches += 1;
+    if (!stats.pagesVisited.includes(page)){
+      stats.pagesVisited.push(page);
+    }
+
+    updateStats(stats);
+  }
+
+  useEffect(() => {
+    handleswitch("404");
+  }, []);
+
+
   return (
     <div className='p-4 min-h-screen'>
       <Header/>

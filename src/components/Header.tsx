@@ -4,7 +4,8 @@ type statsObject = {
   closedWindows: number,
   infoClicked: number,
   pagesVisited: string[],
-  sectionSwitches: number
+  sectionSwitches: number,
+  isKonami: boolean
 }
 
 export const Header = () => {
@@ -19,7 +20,8 @@ export const Header = () => {
         closedWindows: 0,
         infoClicked: 0,
         pagesVisited: [],
-        sectionSwitches: 0
+        sectionSwitches: 0,
+        isKonami: false
       };
       localStorage.setItem("Stats", JSON.stringify(statsJSON));
     }

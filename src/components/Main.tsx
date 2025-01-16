@@ -4,7 +4,8 @@ type statsObject = {
   closedWindows: number,
   infoClicked: number,
   pagesVisited: string[],
-  sectionSwitches: number
+  sectionSwitches: number,
+  isKonami: boolean
 }
 
 export const Main = () => {
@@ -19,7 +20,8 @@ export const Main = () => {
         closedWindows: 0,
         infoClicked: 0,
         pagesVisited: [],
-        sectionSwitches: 0
+        sectionSwitches: 0,
+        isKonami: false
       };
       localStorage.setItem("Stats", JSON.stringify(statsJSON));
     }
@@ -55,7 +57,7 @@ export const Main = () => {
           <h1 className='font-Lilita_One text-3xl xl:text-6xl text-accent text-center py-4'>¡Bienvenido a mi web!</h1>
           <p className='font-Afacad_Flux font-light text-white text-center text-2xl xl:text-3xl'>
             Me presento, soy Vicente Moreno, más conocido como Zais, ZaisX o Zek.
-            Actualmente, curso en el <span className='text-primary'>III medio B</span> y tengo <span className='text-primary'>16 años</span>.
+            Actualmente, curso en el <span className='text-primary'>IV medio B</span> y tengo <span className='text-primary'>16 años</span>.
             <br />
             En esta página busco mostrar mis proyectos de programación y proyectos musicales que estoy desarrollando.
             <br />
@@ -71,7 +73,7 @@ export const Main = () => {
         <div className='flex flex-col mt-6 justify-center min-w-[90%] xl:min-w-[60%] mx-auto xl:row-start-2 xl:col-span-3'>
           <Link onClick={() => { handleswitch("about") }} to="/about#top" className='no-underline flex items-center justify-center font-Afacad_Flux rounded-lg text-black min-h-12 text-2xl bg-primary cursor-pointer active:bg-secondary mb-4'>Ir a mi bio en mas detalle</Link>
           <Link onClick={() => { handleswitch("proyects") }} to="/proyects" className='no-underline flex items-center justify-center font-Afacad_Flux rounded-lg text-black min-h-12 text-2xl bg-primary cursor-pointer active:bg-secondary mb-4'>Ir a mis proyectos :P</Link>
-          <p className='opacity-50 no-underline flex items-center justify-center font-Afacad_Flux rounded-lg text-black min-h-12 text-2xl bg-primary cursor-pointer active:bg-secondary mb-4'>Logros :33</p>
+          <Link onClick={() => { handleswitch("achivements") }} to="/achivements" className='no-underline flex items-center justify-center font-Afacad_Flux rounded-lg text-black min-h-12 text-2xl bg-primary cursor-pointer active:bg-secondary mb-4'>Logros :33</Link>
         </div>
       </div>
     </div>

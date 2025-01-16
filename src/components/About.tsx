@@ -10,7 +10,7 @@ export const About = () => {
         <div className="xl:grid xl:grid-cols-2">
           <p className=" text-center text-white font-Afacad_Flux font-light text-2xl">
             Me presento, soy Vicente Moreno, más conocido como <span className='text-primary'>Zais, ZaisX o Zek</span>.
-            Actualmente, curso en el <span className='text-primary'>III medio B</span> y <span className='text-primary'>tengo 16 años</span>.
+            Actualmente, curso en el <span className='text-primary'>IV medio B</span> y <span className='text-primary'>tengo 16 años</span>.
             <br />
             <br />
             Nací el <span className='text-primary'>18 de marzo del 2008</span>, ¡me gusta mucho la tecnología, los videojuegos, la música y sobre todo aventurarme a cosas nuevas!

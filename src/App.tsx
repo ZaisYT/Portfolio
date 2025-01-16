@@ -6,7 +6,49 @@ import { FOF } from "./components/fof";
 import { Achivements } from "./components/Achivements";
 import { useEffect } from "react";
 
+type statsObject = {
+  closedWindows: number,
+  infoClicked: number,
+  pagesVisited: string[],
+  sectionSwitches: number,
+  isKonami: boolean
+}
+
 function App() {
+  function getStats(): statsObject{
+    let stats = localStorage.getItem("Stats");
+
+    let statsJSON
+    if (stats) {
+      statsJSON = JSON.parse(stats);
+    } else {
+      statsJSON = {
+        closedWindows: 0,
+        infoClicked: 0,
+        pagesVisited: [],
+        sectionSwitches: 0,
+        isKonami: false
+      };
+      localStorage.setItem("Stats", JSON.stringify(statsJSON));
+    }
+
+    return statsJSON
+  }
+
+  function updateStats(stats: statsObject){
+    localStorage.setItem("Stats", JSON.stringify(stats));
+
+    return;
+  }
+
+  function handleKonami() {
+    let stats: statsObject = getStats();
+    if (!stats.isKonami){
+      stats.isKonami = true;
+      updateStats(stats);
+    }
+  }
+
   useEffect(() => {
     let cursor = 0;
     const KONAMI_CODE = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
@@ -16,7 +58,8 @@ function App() {
     });
 
     function activateCheats() {
-      alert("cheats activated");
+      alert("Trucos Activados!");
+      handleKonami()
     }
   });
 
