@@ -9,9 +9,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: '#1a1a1a',
+        primary: '#ff8300',
+        secondary: '#fc854a',
+        accent: '#00d2a8'
       },
+      fontFamily: {
+        "Lilita_One": ['Lilita One', 'serif'],
+        "Afacad_Flux": ['Afacad Flux', 'serif']
+      }
     },
   },
   plugins: [],
