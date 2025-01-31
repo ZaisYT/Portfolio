@@ -14,7 +14,7 @@ export default function MainComponent() {
   const allPages = ["proyects", "main", "about", "achivements", "404"];
 
   function getStats(): statsObject {
-    let stats = localStorage.getItem("Stats");
+    const stats = localStorage.getItem("Stats");
 
     let statsJSON
     if (stats) {
@@ -33,10 +33,10 @@ export default function MainComponent() {
     return statsJSON
   }
 
-  let stats: statsObject = getStats();
+  const stats: statsObject = getStats();
 
   function percentageCalculation(val: number, expected: number): number {
-    let percentage = val / expected;
+    const percentage = val / expected;
     if ((percentage * 100) > 100) return 100;
     return percentage * 100;
   }
@@ -91,7 +91,7 @@ export default function MainComponent() {
     if (isFOFDiscovered()) noCompletedAchivements += 1;
     if (stats.pagesVisited.length == allPages.length) noCompletedAchivements += 1;
 
-    let percentage =  noCompletedAchivements / achivementsNo;
+    const percentage =  noCompletedAchivements / achivementsNo;
     return percentage * 100;
   }
 
@@ -225,7 +225,7 @@ export default function MainComponent() {
 }
 
 type AchiType = {
-  val: Number;
+  val: number;
   data: {
     Img: string;
     Title: string;

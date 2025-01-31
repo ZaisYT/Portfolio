@@ -26,9 +26,14 @@ export default function MainComponent() {
 
   function handleHelp() {
     const newlist = [...proyectList];
-    helpActive ? newlist.shift() : newlist.unshift({ id: Date.now(), windowTitle: "Ayuda", windowDesc: 'El icono de la flecha te redireccionara a la pagina del proyecto o algun link asociado con el. Mientras tanto la X servira para cerrar la ventana del proyecto, aunque cuidado, si cierras muchas ventanas te podras quedar sin, esto solo se arregla recargando la seccion!', windowTechs: [], ishelp: true });
+    if (helpActive) {
+      newlist.shift()
+    } else {
+      newlist.unshift({ id: Date.now(), windowTitle: "Ayuda", windowDesc: 'El icono de la flecha te redireccionara a la pagina del proyecto o algun link asociado con el. Mientras tanto la X servira para cerrar la ventana del proyecto, aunque cuidado, si cierras muchas ventanas te podras quedar sin, esto solo se arregla recargando la seccion!', windowTechs: [], ishelp: true });
+    }
+    
     if (!helpActive) {
-      let stats = getStats();
+      const stats = getStats();
       stats.infoClicked += 1;
       updateStats(stats);
     }
@@ -44,13 +49,13 @@ export default function MainComponent() {
       return
     }
 
-    let stats = getStats();
+    const stats = getStats();
     stats.closedWindows += 1;
     updateStats(stats);
   }
 
   function getStats(): statsObject {
-    let stats = localStorage.getItem("Stats");
+    const stats = localStorage.getItem("Stats");
 
     let statsJSON
     if (stats) {
@@ -121,8 +126,8 @@ type WindowType = {
   ishelp: boolean;
 };
 
-const ProyectWindow = ({ id, windowTitle, windowDesc, link, windowImg, windowTechs, closeWindow, ishelp }: WindowType) => {
-  let techsUsed: JSX.Element[] = [];
+const ProyectWindow = ({ id, windowTitle, windowDesc, link, windowTechs, closeWindow, ishelp }: WindowType) => {
+  const techsUsed: JSX.Element[] = [];
 
   if (windowTechs.includes("Python")) {
     techsUsed.push(<Image

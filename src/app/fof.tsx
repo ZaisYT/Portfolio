@@ -13,7 +13,7 @@ type statsObject = {
 
 export default function FOFComponent() {
   function getStats(): statsObject{
-    let stats = localStorage.getItem("Stats");
+    const stats = localStorage.getItem("Stats");
 
     let statsJSON
     if (stats) {
@@ -39,7 +39,7 @@ export default function FOFComponent() {
   }
 
   function handleswitch(page: string) {
-    let stats = getStats();
+    const stats = getStats();
     stats.sectionSwitches += 1;
     if (!stats.pagesVisited.includes(page)){
       stats.pagesVisited.push(page);
@@ -50,7 +50,7 @@ export default function FOFComponent() {
 
   useEffect(() => {
     handleswitch("404");
-  }, []);
+  }, [handleswitch]);
 
 
   return (

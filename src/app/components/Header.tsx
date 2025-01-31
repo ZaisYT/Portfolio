@@ -11,7 +11,7 @@ type statsObject = {
 
 export default function Header() {
   function getStats(): statsObject {
-    let stats = localStorage.getItem("Stats");
+    const stats = localStorage.getItem("Stats");
 
     let statsJSON
     if (stats) {
@@ -37,7 +37,7 @@ export default function Header() {
   }
 
   function handleswitch() {
-    let stats = getStats();
+    const stats = getStats();
     stats.sectionSwitches += 1;
     if (!stats.pagesVisited.includes("main")) {
       stats.pagesVisited.push("main");

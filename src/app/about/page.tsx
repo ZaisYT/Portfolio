@@ -65,7 +65,7 @@ export default function About() {
             <br />
             <br />
 
-            Mis artistas favoritos son <span className='text-primary'>Ritorukai</span>, <span className='text-primary'>Cray Dalton</span>, <span className='text-primary'>ND' Kobi</span> y <span className='text-primary'>DimelowPro</span>.
+            Mis artistas favoritos son <span className='text-primary'>Ritorukai</span>, <span className='text-primary'>Cray Dalton</span>, <span className='text-primary'>ND&apos; Kobi</span> y <span className='text-primary'>DimelowPro</span>.
             <br />
             <br />
 
