@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import Header from './components/Header';
 import Link from 'next/link';
 
@@ -38,7 +38,7 @@ export default function FOFComponent() {
     return;
   }
 
-  function handleswitch(page: string) {
+  const handleswitch = useCallback((page: string) => {
     const stats = getStats();
     stats.sectionSwitches += 1;
     if (!stats.pagesVisited.includes(page)){
@@ -46,7 +46,7 @@ export default function FOFComponent() {
     }
 
     updateStats(stats);
-  }
+  }, []);
 
   useEffect(() => {
     handleswitch("404");

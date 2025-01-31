@@ -14,23 +14,33 @@ export default function MainComponent() {
   const allPages = ["proyects", "main", "about", "achivements", "404"];
 
   function getStats(): statsObject {
-    const stats = localStorage.getItem("Stats");
-
-    let statsJSON
-    if (stats) {
-      statsJSON = JSON.parse(stats);
+    if (typeof window !== 'undefined') {
+      const stats = localStorage.getItem("Stats");
+  
+      let statsJSON;
+      if (stats) {
+        statsJSON = JSON.parse(stats);
+      } else {
+        statsJSON = {
+          closedWindows: 0,
+          infoClicked: 0,
+          pagesVisited: [],
+          sectionSwitches: 0,
+          isKonami: false,
+        };
+        localStorage.setItem("Stats", JSON.stringify(statsJSON));
+      }
+  
+      return statsJSON;
     } else {
-      statsJSON = {
+      return {
         closedWindows: 0,
         infoClicked: 0,
         pagesVisited: [],
         sectionSwitches: 0,
-        isKonami: false
+        isKonami: false,
       };
-      localStorage.setItem("Stats", JSON.stringify(statsJSON));
     }
-
-    return statsJSON
   }
 
   const stats: statsObject = getStats();
