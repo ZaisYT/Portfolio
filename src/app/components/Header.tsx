@@ -47,13 +47,15 @@ export default function Header() {
   }
 
   return (
-    <Link onClick={handleswitch} className="text-left xl:text-5xl text-4xl font-Lilita_One text-primary flex items-center mb-1" href="/">
-      <span>
-        ZAIS!
-      </span>
-      <span className="text-background bg-accent rounded-md ml-3 text-2xl xl:text-3xl p-0.5">
-        BETA
-      </span>
-    </Link>
-  )
+    <div className="flex">
+      <Link onClick={handleswitch} className="text-left xl:text-5xl text-4xl font-Lilita_One text-primary flex items-center mb-1" href="/">
+        <span>
+          ZAIS!
+        </span>
+        <span className="text-background bg-accent rounded-md ml-3 text-2xl xl:text-3xl p-0.5">
+          BETA
+        </span>
+      </Link>
+    </div>
+    )
 }
