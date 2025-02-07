@@ -2,11 +2,13 @@ import Header from '@/app/components/Header';
 import { getAllPosts, getPostBySlug } from '../../../lib/posts';
 
 interface PostProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export default function Post({ params }: PostProps) {
-  const post = getPostBySlug('posts', params.slug);
+export default async function Post({ params }: PostProps) {
+  // Await the promise to obtain the route parameters
+  const { slug } = await params;
+  const post = getPostBySlug('posts', slug);
   if (!post) {
     return <p>Post no encontrado</p>;
   }
