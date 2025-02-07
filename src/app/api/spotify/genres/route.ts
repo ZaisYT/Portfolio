@@ -31,7 +31,7 @@ export async function GET() {
         const access_token = tokenData.access_token;
 
         // Obtener top de artistas
-        const topArtistsResponse = await fetch('https://api.spotify.com/v1/me/top/artists?limit=50&time_range=long_term', {
+        const topArtistsResponse = await fetch('https://api.spotify.com/v1/me/top/artists?limit=50&time_range=short_term', {
             headers: { Authorization: `Bearer ${access_token}` },
         });
 
