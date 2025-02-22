@@ -14,7 +14,6 @@ export default function MainComponent() {
   const allPages = ["proyects", "main", "about", "achivements", "404"];
 
   function getStats(): statsObject {
-    if (typeof window !== 'undefined') {
       const stats = localStorage.getItem("Stats");
   
       let statsJSON;
@@ -32,15 +31,6 @@ export default function MainComponent() {
       }
   
       return statsJSON;
-    } else {
-      return {
-        closedWindows: 0,
-        infoClicked: 0,
-        pagesVisited: [],
-        sectionSwitches: 0,
-        isKonami: false,
-      };
-    }
   }
 
   const stats: statsObject = getStats();

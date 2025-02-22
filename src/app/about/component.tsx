@@ -7,7 +7,9 @@ type Genre = [string, number];
 type Artist = [string];
 
 export default function MainComponent() {
-  const [genres, setGenres] = useState<Genre[]>([["Cargando datos...", 1]]);
+
+  const [ready, setReady] = useState(false);
+  const [genres, setGenres] = useState<Genre[]>([["Loading", 1]]);
 
   useEffect(() => {
     fetch("/api/spotify/genres")
@@ -16,7 +18,7 @@ export default function MainComponent() {
       .catch((error) => console.error("Error al obtener los géneros:", error));
   }, []);
 
-  const [artists, setArtists] = useState<Artist[]>([["Cargando datos..."]]);
+  const [artists, setArtists] = useState<Artist[]>([["Loading"]]);
 
   useEffect(() => {
     fetch("/api/spotify/artists")
@@ -24,6 +26,11 @@ export default function MainComponent() {
       .then((data: Artist[]) => setArtists(data))
       .catch((error) => console.error("Error al obtener los artistas:", error));
   }, []);
+
+  useEffect(() => {
+    if (artists[0][0] == "Loading" || genres[0][0] == "Loading") return;
+    setReady(true);
+  }, [artists, genres]);
 
 
   return (
@@ -84,7 +91,8 @@ export default function MainComponent() {
             <br />
             En temas musicales, escucho de toda la música, principalmente ahora estoy viciado escuchando:
             <br />
-            {genres.map(([genre], index) => (
+
+            {ready ? <>{genres.map(([genre], index) => (
               <span key={index}>
                 {index === genres.length - 2 ?
                   <>
@@ -102,11 +110,15 @@ export default function MainComponent() {
                   </>
                 }
               </span>
-            ))}
+            ))}</> : <span className="flex items-center justify-center">
+              <span className="animate-pulse flex w-full max-w-[70%] h-4 bg-neutral-700 rounded-md"></span>
+            </span>}
             <br />
             <br />
 
-            Mis artistas favoritos son {artists.map((artist, index) => (
+            Mis artistas favoritos son:
+            <br />
+            {ready ? <>{artists.map((artist, index) => (
               <span key={index}>
                 {index === artists.length - 2 ? (
                   <>
@@ -125,7 +137,9 @@ export default function MainComponent() {
                   </>
                 )}
               </span>
-            ))}
+            ))}</> : <span className="flex items-center justify-center">
+              <span className="animate-pulse flex w-full max-w-[40%] h-4 bg-neutral-700 rounded-md"></span>
+            </span>}
             <br />
             <br />
 

@@ -1,5 +1,5 @@
 'use client';
-import { JSX, useState } from "react";
+import { useState } from "react";
 import Header from "../components/Header";
 import Image from "next/image";
 
@@ -16,11 +16,11 @@ export default function MainComponent() {
 
   // Ahora almacenamos los datos en lugar de los componentes directamente
   const [proyectList, setProyectList] = useState([
-    { id: 0, windowTitle: "ZXQM", windowDesc: "Un sitio web de música que intenta destronar a spotify, es gratuito aunque no tiene muchas canciones y esta pasando por una remodelacion :P", windowTechs: ["HTML", "CSS", "NodeJS", "Python", "TypeScript", "React"] as programmingLang[], ishelp: false },
-    { id: 1, windowTitle: "ZaisX", windowDesc: "Mi perfil de Spotify como artista :33", windowTechs: ["other"] as programmingLang[], link: "https://open.spotify.com/intl-es/artist/25CHYmNDiv8GB4UXduYdfz", ishelp: false },
-    { id: 2, windowTitle: "Vibras Ligeras", windowDesc: "Mi banda humilde, somos ligeros :33", windowTechs: ["other"] as programmingLang[], link: "https://www.instagram.com/vibras.ligeras/", ishelp: false },
-    { id: 3, windowTitle: "Horarios para cursos", windowDesc: "Pagina web para cursos que permite subir tareas, pruebas, salidas y mucho mas <3", windowTechs: ["HTML", "TailwindCSS", "React", "TypeScript", "NodeJS", "other"] as programmingLang[], link: "https://3mb-horario.netlify.app/", ishelp: false },
-    { id: 4, windowTitle: "ZAIS!", windowDesc: "Pagina web para subir mis cositas, es la pagina en la que estas, waaa", windowTechs: ["HTML", "TailwindCSS", "React", "TypeScript", "NodeJS", "other"] as programmingLang[], link: "https://zais.netlify.app/", ishelp: false }
+    { id: 0, windowTitle: "ZXQM", windowDesc: "Un sitio web de música que intenta destronar a spotify, es gratuito aunque no tiene muchas canciones y esta pasando por una remodelacion :P", windowTechs: ["HTML", "CSS", "NodeJS", "Python", "TypeScript", "React"] as ProgrammingLang[], ishelp: false },
+    { id: 1, windowTitle: "ZaisX", windowDesc: "Mi perfil de Spotify como artista :33", windowTechs: ["other"] as ProgrammingLang[], link: "https://open.spotify.com/intl-es/artist/25CHYmNDiv8GB4UXduYdfz", ishelp: false },
+    { id: 2, windowTitle: "Vibras Ligeras", windowDesc: "Mi banda humilde, somos ligeros :33", windowTechs: ["other"] as ProgrammingLang[], link: "https://www.instagram.com/vibras.ligeras/", ishelp: false },
+    { id: 3, windowTitle: "Horarios para cursos", windowDesc: "Pagina web para cursos que permite subir tareas, pruebas, salidas y mucho mas <3", windowTechs: ["HTML", "TailwindCSS", "React", "TypeScript", "NodeJS", "other"] as ProgrammingLang[], link: "https://3mb-horario.netlify.app/", ishelp: false },
+    { id: 4, windowTitle: "ZAIS!", windowDesc: "Pagina web para subir mis cositas, es la pagina en la que estas, waaa", windowTechs: ["HTML", "TailwindCSS", "React", "TypeScript", "NodeJS", "other"] as ProgrammingLang[], link: "https://zais.netlify.app/", ishelp: false }
   ]);
 
 
@@ -31,10 +31,13 @@ export default function MainComponent() {
     } else {
       newlist.unshift({ id: Date.now(), windowTitle: "Ayuda", windowDesc: 'El icono de la flecha te redireccionara a la pagina del proyecto o algun link asociado con el. Mientras tanto la X servira para cerrar la ventana del proyecto, aunque cuidado, si cierras muchas ventanas te podras quedar sin, esto solo se arregla recargando la seccion!', windowTechs: [], ishelp: true });
     }
-    
+
     if (!helpActive) {
       const stats = getStats();
       stats.infoClicked += 1;
+      if (stats.infoClicked == 100){
+        window.open("https://discordapp.com/users/528735486773166117", 'newTab')
+      }
       updateStats(stats);
     }
     setProyectList(newlist);
@@ -95,7 +98,12 @@ export default function MainComponent() {
           className="w-9 cursor-pointer" />
       </div>
 
-      <div className="xl:flex xl:flex-col xl:justify-center mt-4">
+      <div className="flex flex-col">
+        <h1 className="text-lg md:text-2xl font-Afacad_Flux mb-3">Estas son las tecnologias usadas! (puedes hacer click para filtrar)</h1>
+        <TechList />
+      </div>
+
+      <div className="flex flex-col md:flex-row mt-4 gap-4">
         {proyectList.map((data) => (
           <ProyectWindow
             key={data.id}
@@ -113,104 +121,62 @@ export default function MainComponent() {
   );
 };
 
-type programmingLang = "Python" | "JavaScript" | "CSS" | "HTML" | "TypeScript" | "NodeJS" | "React" | "TailwindCSS" | "other";
+type ProgrammingLang =
+  | "Python"
+  | "JavaScript"
+  | "CSS"
+  | "HTML"
+  | "TypeScript"
+  | "NodeJS"
+  | "React"
+  | "TailwindCSS"
+  | "Vite"
+  | "NextJS"
+  | "other";
+
+const allTechs: ProgrammingLang[] = [
+    "Python",
+    "JavaScript",
+    "CSS",
+    "HTML",
+    "TypeScript",
+    "NodeJS",
+    "React",
+    "TailwindCSS",
+    "Vite",
+    "NextJS",
+    "other",
+];
 
 type WindowType = {
   id: number;
   windowTitle: string;
   windowDesc: string;
   link?: string;
-  windowTechs: programmingLang[];
+  windowTechs: ProgrammingLang[];
   windowImg?: string;
   closeWindow: (id: number) => void;
   ishelp: boolean;
 };
 
+const TechsInfo: Record<Exclude<ProgrammingLang, "other">, { src: string, alt: string }> = {
+  Python: { src: "python.svg", alt: "Python Logo" },
+  JavaScript: { src: "js.svg", alt: "JavaScript Logo" },
+  CSS: { src: "css3.svg", alt: "CSS Logo" },
+  HTML: { src: "html.svg", alt: "HTML Logo" },
+  TypeScript: { src: "ts.svg", alt: "TypeScript Logo" },
+  NodeJS: { src: "nodejs.svg", alt: "NodeJS Logo" },
+  React: { src: "reactjs.svg", alt: "React Logo" },
+  TailwindCSS: { src: "tailwind.svg", alt: "TailwindCSS Logo" },
+  Vite: { src: "vite.svg", alt: "Vite Logo" },
+  NextJS: { src: "nextjs.svg", alt: "NextJS Logo" },
+};
+
 const ProyectWindow = ({ id, windowTitle, windowDesc, link, windowTechs, closeWindow, ishelp }: WindowType) => {
-  const techsUsed: JSX.Element[] = [];
-
-  if (windowTechs.includes("Python")) {
-    techsUsed.push(<Image
-      draggable="false"
-      width={32}
-      height={32}
-      className="w-8 mr-1"
-      src="/svgs/python.svg"
-      alt="Python Icon" />)
-  }
-
-  if (windowTechs.includes("JavaScript")) {
-    techsUsed.push(<Image
-      draggable="false"
-      width={32}
-      height={32}
-      className="w-8 mr-1"
-      src="/svgs/js.svg"
-      alt="Javascript Icon" />)
-  }
-
-  if (windowTechs.includes("CSS")) {
-    techsUsed.push(<Image
-      draggable="false"
-      width={32}
-      height={32}
-      className="w-8 mr-1"
-      src="/svgs/css3.svg"
-      alt="CSS Icon" />)
-  }
-
-  if (windowTechs.includes("HTML")) {
-    techsUsed.push(<Image
-      draggable="false"
-      width={32}
-      height={32}
-      className="w-8 mr-1"
-      src="/svgs/html.svg"
-      alt="HTML Icon" />)
-  }
-
-  if (windowTechs.includes("TypeScript")) {
-    techsUsed.push(<Image
-      draggable="false"
-      width={32}
-      height={32}
-      className="w-8 mr-1"
-      src="/svgs/ts.svg"
-      alt="Typescript Icon" />)
-  }
-
-  if (windowTechs.includes("NodeJS")) {
-    techsUsed.push(<Image
-      draggable="false"
-      width={32}
-      height={32}
-      className="w-8 mr-1"
-      src="/svgs/nodejs.svg"
-      alt="NodeJS Icon" />)
-  }
-
-  if (windowTechs.includes("React")) {
-    techsUsed.push(<Image
-      draggable="false"
-      width={32}
-      height={32}
-      className="w-8 mr-1"
-      src="/svgs/reactjs.svg"
-      alt="ReactJS Icon" />)
-  }
-
-  if (windowTechs.includes("TailwindCSS")) {
-    techsUsed.push(<Image
-      draggable="false"
-      width={32}
-      height={32}
-      className="w-8 mr-1"
-      src="/svgs/tailwind.svg"
-      alt="TailwindCSS Icon" />)
-  }
+  const validTechs = windowTechs.filter((tech) => tech !== "other") as Exclude<ProgrammingLang, "other">[];
 
   return (
-    <div className="p-2 bg-neutral-900 rounded-lg mb-4">
+    <div className="p-2 bg-neutral-900 rounded-lg mb-4 md:max-w-[66%] lg:max-w-[33%]">
       <div className="border-b-white border-b-2 pb-2 flex justify-between items-center">
         <h1 className="font-Lilita_One text-white text-3xl">{windowTitle}</h1>
         <div className="flex">
@@ -240,16 +206,70 @@ const ProyectWindow = ({ id, windowTitle, windowDesc, link, windowTechs, closeWi
       <div className="p-2">
         <div>
           <p className='text-white overflow-auto text-ellipsis max-h-32 pb-2 font-Afacad_Flux'>{windowDesc}</p>
-          {ishelp ? null :
+          {!ishelp && validTechs.length > 0 && (
             <div>
-              {(windowTechs.length == 0 || windowTechs[0] == "other") ? null : <h1 className="text-primary font-Lilita_One text-2xl pt-1 pb-2 border-t-2 border-white border-opacity-25">Tecnologias usadas:</h1>}
+              <h1 className="text-primary font-Lilita_One text-2xl pt-1 pb-2 border-t-2 border-white border-opacity-25">
+                Tecnologías usadas:
+              </h1>
               <div className="flex overflow-auto pb-2">
-                {techsUsed.map((elem, i) => (<div key={i}>{elem}</div>))}
+                {validTechs.map((tech, i) => {
+                  const { src, alt } = TechsInfo[tech];
+                  return (
+                    <div key={i}>
+                      <Image
+                        draggable={false}
+                        width={32}
+                        height={32}
+                        className="w-8 mr-1"
+                        src={`svgs/${src}`}
+                        alt={alt}
+                      />
+                    </div>
+                  )
+                })}
               </div>
             </div>
-          }
+          )}
         </div>
       </div>
+    </div>
+  )
+};
+
+type TechRenderType = {
+  img: string
+  name: string 
+}
+
+const TechRender = ({img, name}: TechRenderType) => { 
+  return (
+    <div className="flex flex-col md:flex-row items-center justify-center p-3 bg-neutral-800 pl-10 pr-10 rounded-lg">
+      <Image
+        src={`svgs/${img}`}
+        alt={`${name} icon`}
+        width={32}
+        height={32}
+        className="w-10 h-10 md:mr-2"
+        draggable="false"
+      />
+      <p className=" font-Afacad_Flux flex items-center justify-center text-lg text-white mt-2 md:mt-0">{name}</p>
+    </div>
+  );
+};
+
+const mappedTechs = allTechs
+  .filter((tech) => tech !== "other")
+  .map((tech) => ({
+    tech,
+    ...TechsInfo[tech as Exclude<ProgrammingLang, "other">],
+  }));
+
+const TechList = () => {
+  return (
+    <div className="flex gap-4 overflow-x-auto">
+      {mappedTechs.map((item, index) => (
+        <TechRender key={index} img={item.src} name={item.tech} />
+      ))}
     </div>
   );
 };
