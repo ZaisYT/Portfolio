@@ -1,41 +1,8 @@
-'use client';
+"use client";
 import Link from "next/link";
-
-type statsObject = {
-  closedWindows: number,
-  infoClicked: number,
-  pagesVisited: string[],
-  sectionSwitches: number,
-  isKonami: boolean
-}
+import { getStats, updateStats } from "@/utils/stats";
 
 export default function Header() {
-  function getStats(): statsObject {
-    const stats = localStorage.getItem("Stats");
-
-    let statsJSON
-    if (stats) {
-      statsJSON = JSON.parse(stats);
-    } else {
-      statsJSON = {
-        closedWindows: 0,
-        infoClicked: 0,
-        pagesVisited: [],
-        sectionSwitches: 0,
-        isKonami: false
-      };
-      localStorage.setItem("Stats", JSON.stringify(statsJSON));
-    }
-
-    return statsJSON
-  }
-
-  function updateStats(stats: statsObject) {
-    localStorage.setItem("Stats", JSON.stringify(stats));
-
-    return;
-  }
-
   function handleswitch() {
     const stats = getStats();
     stats.sectionSwitches += 1;
@@ -47,15 +14,17 @@ export default function Header() {
   }
 
   return (
-    <div className="flex">
-      <Link onClick={handleswitch} className="text-left xl:text-5xl text-4xl font-Lilita_One text-primary flex items-center mb-1" href="/">
-        <span>
-          ZAIS!
-        </span>
-        <span className="text-background bg-accent rounded-md ml-3 text-2xl xl:text-3xl p-0.5">
+    <header className="flex">
+      <Link
+        onClick={handleswitch}
+        className="text-left xl:text-5xl text-4xl font-Lilita_One text-primary-500 flex items-center mb-1"
+        href="/"
+      >
+        <h1>ZAIS!</h1>
+        <h2 className="text-background-800 bg-accent-700 rounded-md ml-3 text-2xl xl:text-3xl p-0.5">
           BETA
-        </span>
+        </h2>
       </Link>
-    </div>
-    )
+    </header>
+  );
 }

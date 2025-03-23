@@ -7,7 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function ProyectsPage() {
-  return (
-    <MainComponent />
-  );
-};
+  return <MainComponent />;
+}

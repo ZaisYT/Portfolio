@@ -1,7 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import MarkdownIt from 'markdown-it';
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import MarkdownIt from "markdown-it";
 
 const md = new MarkdownIt();
 
@@ -17,13 +17,13 @@ function getPostsFromFolder(folderName: string): Post[] {
   const fileNames = fs.readdirSync(postsDirectory);
   return fileNames.map((fileName) => {
     const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const fileContents = fs.readFileSync(fullPath, "utf8");
     const { data, content } = matter(fileContents);
     const htmlContent = md.render(content);
     return {
-      title: data.title || 'Título por defecto',
-      date: data.date || 'Fecha por defecto',
-      slug: fileName.replace(/\.md$/, ''),
+      title: data.title || "Título por defecto",
+      date: data.date || "Fecha por defecto",
+      slug: fileName.replace(/\.md$/, ""),
       content: htmlContent,
     };
   });
@@ -35,5 +35,5 @@ export function getAllPosts(folder: string): Post[] {
 
 export function getPostBySlug(folder: string, slug: string): Post | null {
   const posts = getPostsFromFolder(folder);
-  return posts.find(post => post.slug === slug) || null;
+  return posts.find((post) => post.slug === slug) || null;
 }

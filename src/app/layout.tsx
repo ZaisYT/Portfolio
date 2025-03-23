@@ -4,12 +4,12 @@ import "./globals.css";
 
 const afacadFlux = Afacad_Flux({
   subsets: ["latin"],
-  weight: "400"
+  weight: "400",
 });
 
 const lilitaOne = Lilita_One({
   subsets: ["latin"],
-  weight: "400"
+  weight: "400",
 });
 
 export const metadata: Metadata = {

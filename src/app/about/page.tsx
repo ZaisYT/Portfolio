@@ -6,9 +6,6 @@ export const metadata: Metadata = {
   description: "Sobre Zais",
 };
 
-
 export default function Page() {
-  return (
-    <MainComponent />
-  );
+  return <MainComponent />;
 }

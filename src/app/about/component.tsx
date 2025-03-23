@@ -1,15 +1,33 @@
 "use client";
-import Image from "next/image"
-import Header from "../components/Header"
+import Image from "next/image";
+import Header from "../components/Header";
 import { useEffect, useState } from "react";
 
 type Genre = [string, number];
 type Artist = [string];
 
 export default function MainComponent() {
-
   const [ready, setReady] = useState(false);
   const [genres, setGenres] = useState<Genre[]>([["Loading", 1]]);
+
+  function calcularEdad() {
+    const pastDate = new Date("2008-03-18");
+    const currentDate = new Date();
+
+    let yearsDiff = currentDate.getFullYear() - pastDate.getFullYear();
+
+    // Ajustar si aún no ha pasado el cumpleaños este año
+    const hasBirthdayPassed =
+      currentDate.getMonth() > pastDate.getMonth() ||
+      (currentDate.getMonth() === pastDate.getMonth() &&
+        currentDate.getDate() >= pastDate.getDate());
+
+    if (!hasBirthdayPassed) {
+      yearsDiff--;
+    }
+
+    return yearsDiff;
+  }
 
   useEffect(() => {
     fetch("/api/spotify/genres")
@@ -32,33 +50,41 @@ export default function MainComponent() {
     setReady(true);
   }, [artists, genres]);
 
-
   return (
-    <div id="top" className="p-4 min-h-screen bg-background">
+    <section id="top" className="p-4 min-h-screen bg-background-800">
       <Header></Header>
 
-      <div className="xl:mt-20 xl:p-4">
-        <h1 className="my-4 text-center xl:text-left text-accent font-Lilita_One text-5xl xl:text-6xl">Sobre Zais</h1>
+      <main className="xl:mt-20 xl:p-4">
+        <h1 className="my-4 text-center xl:text-left text-accent-700 font-Lilita_One text-5xl xl:text-6xl">
+          Sobre Zais
+        </h1>
         <div className="xl:grid xl:grid-cols-2">
-          <p className=" text-center text-white font-Afacad_Flux font-light text-2xl">
-            Me presento, soy Vicente Moreno, más conocido como <span className='text-primary'>Zais, ZaisX o Zek</span>.
-            Actualmente, curso en el <span className='text-primary'>IV medio B</span> y <span className='text-primary'>tengo 16 años</span>.
-            <br />
-            <br />
-            Nací el <span className='text-primary'>18 de marzo del 2008</span>, ¡me gusta mucho la tecnología, los videojuegos, la música y sobre todo aventurarme a cosas nuevas!
-            <br />
-            <br />
-          </p>
+          <div>
+            <p className="text-center text-white font-Afacad_Flux font-light text-2xl mb-8">
+              Me presento, soy Vicente Moreno, más conocido como{" "}
+              <span className="text-primary-500">Zais, ZaisX o Zek</span>.
+              Actualmente, curso en el
+              <span className="text-primary-500"> IV medio B</span> y tengo
+              <span className="text-primary-500"> {calcularEdad()} años</span>.
+            </p>
+            <p className="text-center text-white font-Afacad_Flux font-light text-2xl mb-8">
+              Nací el
+              <span className="text-primary-500"> 18 de marzo del 2008</span>,
+              ¡me gusta mucho la tecnología, los videojuegos, la música y sobre
+              todo aventurarme a cosas nuevas!
+            </p>
+          </div>
           <div className=" row-start-2">
-            <p className="text-center text-white font-Afacad_Flux font-light text-2xl">
-              Te cuento un poco de mis gustos.
-              <br />
-              Me gustan mucho los <span className='text-primary'>juegos de ritmo</span> desde pequeño, soy muy bueno en ellos.
-              <br />
-              <br />
-              Me encanta la <span className='text-primary'>programación</span> y la <span className='text-primary'>electrónica</span>, a la vez mis juegos/generos favoritos son:
-              <br />
-              <br />
+            <p className="text-center text-white font-Afacad_Flux font-light text-2xl mb-8">
+              Te cuento un poco de mis gustos. Me gustan mucho los
+              <span className="text-primary-500"> juegos de ritmo</span> desde
+              pequeño, soy muy bueno en ellos.
+            </p>
+            <p className="text-center text-white font-Afacad_Flux font-light text-2xl mb-8">
+              Me encanta la
+              <span className="text-primary-500"> programación</span> y la
+              <span className="text-primary-500"> electrónica</span>, a la vez
+              mis juegos/generos favoritos son:
             </p>
             <div className="flex flex-col justify-center items-center md:grid md:grid-cols-3 xl:gap-x-2">
               <Image
@@ -68,7 +94,8 @@ export default function MainComponent() {
                 width={150}
                 height={20}
                 alt="DDR blinkie"
-                unoptimized />
+                unoptimized
+              />
               <Image
                 draggable={false}
                 className="xl:w-full md:mx-auto w-[70%] max-w-60"
@@ -76,7 +103,8 @@ export default function MainComponent() {
                 width={150}
                 height={20}
                 alt="Horror Games blinkie"
-                unoptimized />
+                unoptimized
+              />
               <Image
                 draggable={false}
                 className="xl:w-full md:mx-auto w-[70%] max-w-60"
@@ -84,77 +112,79 @@ export default function MainComponent() {
                 width={150}
                 height={20}
                 alt="Minecraft blinkie"
-                unoptimized />
+                unoptimized
+              />
             </div>
           </div>
-          <p className="row-span-2 text-center text-white font-Afacad_Flux font-light text-2xl">
+          <p className="text-center text-white font-Afacad_Flux font-light text-2xl">
+            En temas musicales, escucho de toda la música, principalmente ahora
+            estoy viciado escuchando:
             <br />
-            En temas musicales, escucho de toda la música, principalmente ahora estoy viciado escuchando:
-            <br />
-
-            {ready ? <>{genres.map(([genre], index) => (
-              <span key={index}>
-                {index === genres.length - 2 ?
-                  <>
-                    <span className="text-primary" key={index}>{genre}</span><span> y </span>
-                  </> :
-                  <>
-                    {index === genres.length - 1 ?
-                      <>
-                        <span className="text-primary" key={index}>{genre}</span><span>.</span>
-                      </> :
-                      <>
-                        <span className="text-primary" key={index}>{genre}</span><span>, </span>
-                      </>}
-
-                  </>
-                }
+            {ready ? (
+              <>
+                {genres.map(([genre], index) => (
+                  <span key={index} className="mb-8">
+                    <span className="text-primary-500 capitalize" key={index}>
+                      {genre}
+                    </span>
+                    {index === genres.length - 2 ? <span> y </span> : null}
+                    {index === genres.length - 1 ? <span>. </span> : null}
+                    {index !== genres.length - 1 &&
+                    index !== genres.length - 2 ? (
+                      <span>, </span>
+                    ) : null}
+                  </span>
+                ))}
+              </>
+            ) : (
+              <span className="flex items-center justify-center">
+                <span className="animate-pulse flex w-full max-w-[50ch] h-4 bg-background-700 rounded-md"></span>
               </span>
-            ))}</> : <span className="flex items-center justify-center">
-              <span className="animate-pulse flex w-full max-w-[70%] h-4 bg-neutral-700 rounded-md"></span>
-            </span>}
-            <br />
-            <br />
-
+            )}
+          </p>
+          <p className="text-center text-white font-Afacad_Flux font-light text-2xl">
             Mis artistas favoritos son:
             <br />
-            {ready ? <>{artists.map((artist, index) => (
-              <span key={index}>
-                {index === artists.length - 2 ? (
-                  <>
-                    <span className="text-primary" key={index}>{artist}</span>
-                    <span> y </span>
-                  </>
-                ) : index === artists.length - 1 ? (
-                  <>
-                    <span className="text-primary" key={index}>{artist}</span>
-                    <span>.</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="text-primary" key={index}>{artist}</span>
-                    <span>, </span>
-                  </>
-                )}
+            {ready ? (
+              <>
+                {artists.map((artist, index) => (
+                  <span key={index}>
+                    <span className="text-primary-500" key={index}>
+                      {artist}
+                    </span>
+                    {index === artists.length - 2 ? <span> y </span> : null}
+                    {index === artists.length - 1 ? <span>. </span> : null}
+                    {index !== artists.length - 1 &&
+                    index !== artists.length - 2 ? (
+                      <span>, </span>
+                    ) : null}
+                  </span>
+                ))}
+              </>
+            ) : (
+              <span className="flex items-center justify-center">
+                <span className="animate-pulse flex w-full max-w-[40%] h-4 bg-neutral-700 rounded-md"></span>
               </span>
-            ))}</> : <span className="flex items-center justify-center">
-              <span className="animate-pulse flex w-full max-w-[40%] h-4 bg-neutral-700 rounded-md"></span>
-            </span>}
+            )}
             <br />
+            En esta página busco mostrar mis proyectos de programación y
+            proyectos musicales que estoy desarrollando.
             <br />
-
-            En esta página busco mostrar mis proyectos de programación y proyectos musicales que estoy desarrollando.
-            <br />
-            <br />
-
-            ¡Recuerda, <span className='text-primary'>siempre estoy abierto a hablar con cualquier persona</span>, así que sin miedo puedes mandarme un dm y amigaremos :D!
-            <br />
-            <br />
+            ¡Recuerda,{" "}
+            <span className="text-primary-500">
+              siempre estoy abierto a hablar con cualquier persona
+            </span>
+            , así que sin miedo puedes mandarme un dm y amigaremos :D!
           </p>
         </div>
 
-        <a href="#top" className="lg:hidden no-underline flex items-center justify-center font-Afacad_Flux rounded-lg text-black min-h-12 text-2xl bg-primary cursor-pointer active:bg-secondary my-4">Volver Arriba</a>
-      </div>
-    </div>
-  )
+        <a
+          href="#top"
+          className="lg:hidden no-underline flex items-center justify-center font-Afacad_Flux rounded-lg text-black min-h-12 text-2xl bg-primary-500 cursor-pointer active:bg-secondary-500 my-4"
+        >
+          Volver Arriba
+        </a>
+      </main>
+    </section>
+  );
 }
