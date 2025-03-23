@@ -1,4 +1,4 @@
-type statsObject = {
+export type statsObject = {
   closedWindows: number;
   infoClicked: number;
   pagesVisited: string[];
@@ -6,9 +6,10 @@ type statsObject = {
   isKonami: boolean;
 };
 
-export function getStats(): statsObject {
-  const stats = localStorage.getItem("Stats");
+export function getStats(): statsObject | null {
+  if (typeof window === "undefined") return null; // Evita el error en SSR
 
+  const stats = localStorage.getItem("Stats");
   let statsJSON: statsObject | null = stats ? JSON.parse(stats) : null;
 
   if (statsJSON === null) {

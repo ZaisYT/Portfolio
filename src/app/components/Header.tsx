@@ -5,6 +5,8 @@ import { getStats, updateStats } from "@/utils/stats";
 export default function Header() {
   function handleswitch() {
     const stats = getStats();
+    if (!stats) return;
+    
     stats.sectionSwitches += 1;
     if (!stats.pagesVisited.includes("main")) {
       stats.pagesVisited.push("main");

@@ -7,6 +7,8 @@ import Link from "next/link";
 export default function FOFComponent() {
   const handleswitch = useCallback((page: string) => {
     const stats = getStats();
+    if (!stats) return;
+
     stats.sectionSwitches += 1;
     if (!stats.pagesVisited.includes(page)) {
       stats.pagesVisited.push(page);

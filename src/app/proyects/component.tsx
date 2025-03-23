@@ -93,6 +93,7 @@ export default function MainComponent() {
 
     if (!helpActive) {
       const stats = getStats();
+      if (!stats) return;
       stats.infoClicked += 1;
       if (stats.infoClicked == 100) {
         window.open(
@@ -114,6 +115,7 @@ export default function MainComponent() {
     }
 
     const stats = getStats();
+    if (!stats) return;
     stats.closedWindows += 1;
     updateStats(stats);
   }
