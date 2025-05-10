@@ -23,9 +23,6 @@ export default function Header() {
         href="/"
       >
         <h1>ZAIS!</h1>
-        <h2 className="text-background-800 bg-accent-700 rounded-md ml-3 text-2xl xl:text-3xl p-0.5">
-          BETA
-        </h2>
       </Link>
     </header>
   );

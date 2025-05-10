@@ -46,9 +46,6 @@ export default function MainComponent() {
           <h1 className="font-Lilita_One text-8xl xl:text-9xl text-primary-500 text-center">
             ZAIS!
           </h1>
-          <h2 className="font-Lilita_One text-6xl xl:text-7xl text-background-800 text-center bg-accent-700 rounded-md p-0.5 w-full max-w-52">
-            BETA
-          </h2>
         </header>
 
         <section className="xl:col-span-2 xl:p-4">
