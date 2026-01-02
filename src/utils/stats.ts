@@ -1,10 +1,10 @@
-export type statsObject = {
+export interface statsObject {
   closedWindows: number;
   infoClicked: number;
   pagesVisited: string[];
   sectionSwitches: number;
   isKonami: boolean;
-};
+}
 
 export function getStats(): statsObject | null {
   if (typeof window === "undefined") return null; // Evita el error en SSR
