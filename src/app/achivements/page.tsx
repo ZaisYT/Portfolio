@@ -6,6 +6,15 @@ export const metadata: Metadata = {
   description: "Logros en el fortafolio de Zais",
 };
 
+const AllRoutes = [
+  "main",
+  "about",
+  "proyects",
+  "achivements",
+  "404",
+  "cotizador",
+];
+
 export default function Page() {
-  return <MainComponent />;
+  return <MainComponent routes={AllRoutes} />;
 }
