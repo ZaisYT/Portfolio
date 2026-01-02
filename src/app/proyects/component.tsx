@@ -152,7 +152,10 @@ export default function MainComponent() {
         <h1 className="text-lg md:text-2xl font-Afacad_Flux mb-3">
           Estas son las tecnologias usadas! (puedes hacer click para filtrar)
         </h1>
-        <TechList selectedTechs={selectedTechs} setSelectedTechs={setSelectedTechs} />
+        <TechList
+          selectedTechs={selectedTechs}
+          setSelectedTechs={setSelectedTechs}
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-4">
@@ -229,15 +232,17 @@ const TechsInfo: Record<
   NextJS: { src: "nextjs.svg", alt: "NextJS Logo" },
 };
 
-const ProyectWindow = ({
-  id,
-  windowTitle,
-  windowDesc,
-  link,
-  windowTechs,
-  closeWindow,
-  ishelp,
-}: WindowType) => {
+const ProyectWindow = (props: WindowType) => {
+  const {
+    id,
+    windowTitle,
+    windowDesc,
+    link,
+    windowTechs,
+    closeWindow,
+    ishelp,
+  } = props;
+
   const validTechs = windowTechs.filter((tech) => tech !== "other") as Exclude<
     ProgrammingLang,
     "other"
@@ -308,21 +313,21 @@ const ProyectWindow = ({
   );
 };
 
-const TechRender = ({
-  img,
-  name,
-  isActive,
-  onClick,
-}: {
+interface TechRenderProps {
   img: string;
   name: string;
   isActive: boolean;
   onClick: () => void;
-}) => {
+}
+
+const TechRender = (props: TechRenderProps) => {
+  const { img, name, isActive, onClick } = props;
   return (
     <div
       className={`flex flex-col md:flex-row items-center justify-center p-3 pl-10 pr-10 rounded-lg  transition-colors duration-300 ease-in-out cursor-pointer ${
-        !isActive ? "bg-neutral-800 hover:bg-neutral-700" : "bg-secondary-500 hover:bg-amber-400"
+        !isActive
+          ? "bg-neutral-800 hover:bg-neutral-700"
+          : "bg-secondary-500 hover:bg-amber-400"
       }`}
       onClick={onClick}
     >

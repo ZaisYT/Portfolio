@@ -2,13 +2,23 @@
 import Image from "next/image";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
+import { getTopArtists, getTopGenres } from "@/lib/spotifyData";
+
+interface Artist {
+  id: string;
+  name: string;
+  image: string;
+  genres: string[];
+  url: string;
+}
 
 type Genre = [string, number];
-type Artist = [string];
 
 export default function MainComponent() {
-  const [ready, setReady] = useState(false);
   const [genres, setGenres] = useState<Genre[]>([["Loading", 1]]);
+  const [artists, setArtists] = useState<Artist[]>([
+    { id: "0", name: "Loading", image: "", genres: [], url: "#" },
+  ]);
 
   function calcularEdad() {
     const pastDate = new Date("2008-03-18");
@@ -16,43 +26,39 @@ export default function MainComponent() {
 
     let yearsDiff = currentDate.getFullYear() - pastDate.getFullYear();
 
-    // Ajustar si aún no ha pasado el cumpleaños este año
     const hasBirthdayPassed =
       currentDate.getMonth() > pastDate.getMonth() ||
       (currentDate.getMonth() === pastDate.getMonth() &&
         currentDate.getDate() >= pastDate.getDate());
 
-    if (!hasBirthdayPassed) {
-      yearsDiff--;
-    }
+    if (!hasBirthdayPassed) yearsDiff--;
 
     return yearsDiff;
   }
 
   useEffect(() => {
-    fetch("/api/spotify/genres")
-      .then((res) => res.json())
-      .then((data: Genre[]) => setGenres(data))
-      .catch((error) => console.error("Error al obtener los géneros:", error));
+    async function loadData() {
+      try {
+        const [genresData, artistsData] = await Promise.all([
+          getTopGenres(),
+          getTopArtists(),
+        ]);
+        setGenres(genresData);
+        setArtists(artistsData);
+      } catch (error) {
+        console.error("Error al obtener datos de Spotify:", error);
+      }
+    }
+
+    loadData();
   }, []);
 
-  const [artists, setArtists] = useState<Artist[]>([["Loading"]]);
-
-  useEffect(() => {
-    fetch("/api/spotify/artists")
-      .then((res) => res.json())
-      .then((data: Artist[]) => setArtists(data))
-      .catch((error) => console.error("Error al obtener los artistas:", error));
-  }, []);
-
-  useEffect(() => {
-    if (artists[0][0] == "Loading" || genres[0][0] == "Loading") return;
-    setReady(true);
-  }, [artists, genres]);
+  const genresLoaded = genres[0][0] !== "Loading";
+  const artistsLoaded = artists[0].name !== "Loading";
 
   return (
     <section id="top" className="p-4 min-h-screen bg-background-800">
-      <Header></Header>
+      <Header />
 
       <main className="xl:mt-20 xl:p-4">
         <h1 className="my-4 text-center xl:text-left text-accent-700 font-Lilita_One text-5xl xl:text-6xl">
@@ -74,7 +80,8 @@ export default function MainComponent() {
               todo aventurarme a cosas nuevas!
             </p>
           </div>
-          <div className=" row-start-2">
+
+          <div className="row-start-2">
             <p className="text-center text-white font-Afacad_Flux font-light text-2xl mb-8">
               Te cuento un poco de mis gustos. Me gustan mucho los
               <span className="text-primary-500"> juegos de ritmo</span> desde
@@ -84,7 +91,7 @@ export default function MainComponent() {
               Me encanta la
               <span className="text-primary-500"> programación</span> y la
               <span className="text-primary-500"> electrónica</span>, a la vez
-              mis juegos/generos favoritos son:
+              mis juegos/géneros favoritos son:
             </p>
             <div className="flex flex-col justify-center items-center md:grid md:grid-cols-3 xl:gap-x-2">
               <Image
@@ -116,17 +123,16 @@ export default function MainComponent() {
               />
             </div>
           </div>
+
           <p className="text-center text-white font-Afacad_Flux font-light text-2xl">
             En temas musicales, escucho de toda la música, principalmente ahora
             estoy viciado escuchando:
             <br />
-            {ready ? (
+            {genresLoaded ? (
               <>
                 {genres.map(([genre], index) => (
                   <span key={index} className="mb-8">
-                    <span className="text-primary-500 capitalize" key={index}>
-                      {genre}
-                    </span>
+                    <span className="text-primary-500 capitalize">{genre}</span>
                     {index === genres.length - 2 ? <span> y </span> : null}
                     {index === genres.length - 1 ? <span>. </span> : null}
                     {index !== genres.length - 1 &&
@@ -142,16 +148,15 @@ export default function MainComponent() {
               </span>
             )}
           </p>
+
           <p className="text-center text-white font-Afacad_Flux font-light text-2xl">
             Mis artistas favoritos son:
             <br />
-            {ready ? (
+            {artistsLoaded ? (
               <>
                 {artists.map((artist, index) => (
-                  <span key={index}>
-                    <span className="text-primary-500" key={index}>
-                      {artist}
-                    </span>
+                  <span key={artist.id}>
+                    <span className="text-primary-500">{artist.name}</span>
                     {index === artists.length - 2 ? <span> y </span> : null}
                     {index === artists.length - 1 ? <span>. </span> : null}
                     {index !== artists.length - 1 &&
